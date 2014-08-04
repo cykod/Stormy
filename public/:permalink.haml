@@ -1,0 +1,9 @@
+---
+_content:
+  post:
+    key: ":permalink"
+---
+- meta[:title] = post.title
+- meta[:image] = post.image
+%h1= post.title
+= post.content
