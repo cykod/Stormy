@@ -1,16 +1,11 @@
 class Stormy::Content
 
-  def initialize(filename)
-    @filename = filename
-  end
+  def initialize(category,key,meta)
+    key, meta, content = Stormy.cache.content(category,key) do
+      Stormy.store.content(category,key)
+    end
 
-  def render
-    # fetch from store
-      # use content if it exists
-    # else
-      # interpolate front matter
-      # get layout
-      # output
+    super(key,meta,page_meta,content)
   end
 
 end
