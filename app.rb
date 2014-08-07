@@ -1,6 +1,8 @@
 require "rack"
 require_relative "lib/stormy"
 
+Stormy.root =  File.dirname(__FILE__) 
+
 class StormyApp
   def call(env)
     output = render(env['PATH_INFO'])
