@@ -6,7 +6,7 @@ Stormy.root =  File.dirname(__FILE__)
 
 class StormyApp
   def call(env)
-    output = render(env['PATH_INFO'])
+    output = render(::Rack::Utils.unescape(env['PATH_INFO']))
     [200, {"Content-Type" => "text/html"}, [ output ] ] 
   end
 
