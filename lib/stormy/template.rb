@@ -36,7 +36,7 @@ class Stormy::Template
 
   def resolve_engine(extension)
     engine = @@engines[extension]
-    if engine.present?
+    if !engine.nil?
       "Stormy::Engines::#{engine}".constantize.new
     end
   end

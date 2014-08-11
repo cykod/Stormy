@@ -1,3 +1,5 @@
+require "yaml" 
+
 module Stormy::Stores 
 
   class Base
@@ -20,11 +22,14 @@ module Stormy::Stores
     def extract_content(body)
     end
 
-    def extract(string)
-      if(body =~ /^(---$\n.*?)^---$\n(.*)/m)
+    def extract(key,string)
+      return nil unless string.present?
+      if(string =~ /^(---$\n.*?)^---$\n(.*)/m)
         metadata = YAML.load($1) 
         content = $2
-        [ metadata, content ]
+        [ key, metadata, content ]
+      else
+        [ key, {}, string ]
       end
     end
 

@@ -1,4 +1,4 @@
-class Stormy::Content
+class Stormy::Content < Stormy::Chunk
 
   def initialize(category,key,meta)
     key, meta, content = Stormy.cache.content(category,key) do

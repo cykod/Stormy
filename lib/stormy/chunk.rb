@@ -2,7 +2,7 @@ class Stormy::Chunk
 
   def initialize(key,meta,page_meta,content)
     @key = key
-    @meta = meta.merge(page_meta)
+    @meta = meta.merge(page_meta) if page_meta
     @content = content
 
     @template = Stormy::Template.new(@key,@meta,@content) if @content

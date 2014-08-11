@@ -4,17 +4,32 @@ class Stormy::Stores::FileStore < Stormy::Stores::Base
 
   end
 
+  def filename(base,path)
+    files = Dir.glob("#{base}#{path}.*")
+    if files[0] && !File.directory?(files[0])
+      files[0]
+    elsif File.directory?("#{base}#{path}")
+      files = Dir.glob("#{base}#{path}index.*")
+      files[0]
+    else 
+      nil
+    end
+  end
+
   def page(key)
-    extract(read("public",key))
+    extract(*read("public",key))
   end
   
   def content(category,key)
-    extract(read("_content/#{category}",key))
+    extract(*read("_content/#{category}",key))
   end
 
   def read(base,path)
-    file = File.open(File.join(Stormy.root,base,path),"rt")
-    file.read
+    file = filename(base,path)
+    return [path, nil ] unless file
+    fp = File.open(file,"rt")
+    new_key =  file[base.length..-1]
+    [ new_key, fp.read ]
   end
 
 end

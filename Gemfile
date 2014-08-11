@@ -6,3 +6,4 @@ gem 'rack'
 gem "tilt"
 gem 'haml'
 gem 'maruku'
+gem "activesupport"
