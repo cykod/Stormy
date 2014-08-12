@@ -5,12 +5,12 @@ class Stormy::Template
     @meta = meta
     @content = content
 
-    @engine = resolve_engine(extract_extension(@key))
+    @engine = resolve_engine(self.class.extract_extension(@key))
   end
 
-  def render
+  def render(&block)
     if @engine
-      @engine.render(@content,@meta)
+      @engine.render(@content,@meta,&block)
     else
       nil
     end
@@ -21,15 +21,20 @@ class Stormy::Template
   @@engines = {
     "md" => "Maruku",
     "haml" => "Haml",
-    "txt" => "Text",
+    "txt"  => "Text",
     "html" => "Html",
     "erb" => "Erb",
-    "less" => "Less",
-    "scss" => "Sass",
-    "css" => "Css"
+    "scss" => "Sass"
   }
 
-  def extract_extension(key)
+  @@supported_extensions = @@engines.keys
+
+  def self.rendered_extension?(extension)
+    @@supported_extensions.include?(extension)
+  end
+  
+
+  def self.extract_extension(key)
     return "txt" unless key.include?(".")
     key.split(".")[-1].to_s.downcase
   end

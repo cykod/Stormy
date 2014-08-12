@@ -11,6 +11,9 @@ module Stormy::Stores
     def page(key)
     end
 
+    def layout(key)
+    end
+
     # find the content that matches a category and a key
     def content(category,key)
     end

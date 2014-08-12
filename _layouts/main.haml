@@ -1,8 +1,11 @@
-!!5
+!!!5
 %html
   %head
-    %title= meta.title
+    %title= "ok"
+    %link{rel: "stylesheet", type:"text/css", href: "/style/main.css", charset:"utf-8"}
   %body
     %aside
       Here's a sidebar
+    %section#main
+      = yield
 

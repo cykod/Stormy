@@ -1,8 +1,5 @@
 require './app'
 
-
-use Rack::Static, :urls => ["/assets"], :root => "public"
-
-
+Stormy.root =  File.dirname(__FILE__) 
 run StormyApp.new
 

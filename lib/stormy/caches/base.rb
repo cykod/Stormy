@@ -17,7 +17,11 @@ module Stormy::Caches
     end
 
     def page(key,&block)
-      content("page",key,&block)
+      content("_pages",key,&block)
+    end
+
+    def layout(key,&block)
+      content("_layouts",key,&block)
     end
 
     def content_list(category,options = {}, &block)

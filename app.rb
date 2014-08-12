@@ -2,17 +2,27 @@ require "rack"
 require "rack/mime"
 require_relative "lib/stormy"
 
-Stormy.root =  File.dirname(__FILE__) 
-
 class StormyApp
-  def call(env)
-    output = render(::Rack::Utils.unescape(env['PATH_INFO']))
-    [200, {"Content-Type" => "text/html"}, [ output ] ] 
+  def initialize
+    @file_server = Stormy::Static.new(File.join(Stormy.root,"public"))
   end
 
+  def call(env)
+    render(::Rack::Utils.unescape(env['PATH_INFO']))
+  end
+
+
   def render(path)
-    # find a page that matches
-    @page = Stormy::Page.new(path,{})
+    if @file_server.can_serve?(path)
+      @file_server.serve(path)
+    else
+      output, content_type = render_page(path)
+      [200, {"Content-Type" => content_type}, [ output ] ] 
+    end
+  end
+
+  def render_page(path)
+    @page = Stormy::Page.new(path,{ "path" =>  path })
 
     if @page.valid?
       @page.render
