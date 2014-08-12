@@ -27,7 +27,7 @@ class StormyApp
     if @page.valid?
       @page.render
     else
-      @error_page = Stormy::Page.new("/404", {})
+      @error_page = Stormy::Page.new("/404", { "path" => "/404" })
       @error_page.render
     end
   end

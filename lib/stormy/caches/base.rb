@@ -10,8 +10,10 @@ module Stormy::Caches
     def content(category,key,options={},&block)
       data = self.get(category,key)
       if !data.nil?
+        puts "Cache Hit:  #{category} #{key}"
         data
       else
+        puts "Cache Miss: #{category} #{key}"
         self.put(category,key,yield(options))
       end
     end
