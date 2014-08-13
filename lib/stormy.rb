@@ -2,6 +2,8 @@ require 'active_support/all'
 
 module Stormy
 
+  VERSION = "0.0.1"
+
   def self.cache=(val)
     @@cache = val
   end
@@ -50,6 +52,8 @@ require_relative 'stormy/engines/haml'
 require_relative 'stormy/engines/sass'
 
 require_relative 'stormy/template'
+
+require_relative "stormy_app"
 
 Stormy.cache = Stormy::Caches::MemoryCache.new
 Stormy.store = Stormy::Stores::FileStore.new

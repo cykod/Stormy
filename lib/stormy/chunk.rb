@@ -17,7 +17,7 @@ class Stormy::Chunk
 
   def render
     return  [ @layout ? @layout.render(@template) : @template.render,
-              mime = Rack::Mime.mime_type(File.extname(@meta["path"]), "text/html") ]
+              Rack::Mime.mime_type(File.extname(@meta["path"]), "text/html") ]
   end
 
 end

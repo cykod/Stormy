@@ -1,6 +1,5 @@
 require "rack"
 require "rack/mime"
-require_relative "lib/stormy"
 
 class StormyApp
   def initialize
