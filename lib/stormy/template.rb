@@ -1,6 +1,9 @@
 class Stormy::Template
 
-  def initialize(key,meta,content)
+  attr_reader :meta
+
+  def initialize(app,key,meta,content)
+    @app = app
     @key = key
     @meta = meta
     @content = content
@@ -10,7 +13,7 @@ class Stormy::Template
 
   def render(&block)
     if @engine
-      @engine.render(@content,@meta,&block)
+      @engine.render(@content,resolve_bindings,&block)
     else
       nil
     end
@@ -42,8 +45,14 @@ class Stormy::Template
   def resolve_engine(extension)
     engine = @@engines[extension]
     if !engine.nil?
-      "Stormy::Engines::#{engine}".constantize.new
+      "Stormy::Engines::#{engine}".constantize.new(@app)
     end
+  end
+
+  def resolve_bindings
+    { 
+      meta: @meta
+    }
   end
 
 end

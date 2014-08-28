@@ -1,11 +1,11 @@
 class Stormy::Content < Stormy::Chunk
 
-  def initialize(category,key,meta)
-    key, meta, content = Stormy.cache.content(category,key) do
-      Stormy.store.content(category,key)
+  def initialize(app,category,key,meta)
+    key, meta, content = app.cache.content(category,key) do
+      app.store.content(category,key)
     end
 
-    super(key,meta,page_meta,content)
+    super(app,key,meta,page_meta,content)
   end
 
 end

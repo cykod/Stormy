@@ -1,10 +1,10 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'stormy'
+require 'stormy/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "Stormy"
+  spec.name          = "stormy"
   spec.version       = Stormy::VERSION
   spec.authors       = ["Pascal Rettig"]
   spec.email         = ["pascal@cykod.com"]

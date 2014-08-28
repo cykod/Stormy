@@ -1,14 +1,19 @@
 require "rack/mime"
 
 class Stormy::Chunk
+  attr_reader :meta
 
-  def initialize(key,meta,page_meta,content)
+  def initialize(app,key,meta,page_meta,content)
+    @app = app
     @key = key
-    @meta = page_meta ?  meta.merge(page_meta) : {}
+    
+    @meta = ActiveSupport::HashWithIndifferentAccess.new(app.defaults)
+    @meta.merge!(page_meta) if page_meta
+    @meta.merge!(meta) 
+    
     @content = content
 
-    @layout = Stormy::Layout.new(@meta["layout"]) if @meta["layout"]
-    @template = Stormy::Template.new(@key,@meta,@content) if @content
+    @template = app.template(@key,@meta,@content) if @content
   end
 
   def valid?

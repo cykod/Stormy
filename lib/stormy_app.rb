@@ -1,34 +1,26 @@
-require "rack"
-require "rack/mime"
 
 class StormyApp
-  def initialize
-    @file_server = Stormy::Static.new(File.join(Stormy.root,"public"))
+
+  attr_reader :root, :cache, :store, :defaults, :options
+
+  def initialize(options)
+    @options = options
+    @root = options[:root] || raise("Missing :root config")
+    @cache = (options[:cache] || Stormy::Caches::DummyCache).new(self)
+    @store = (options[:store] || Stormy::Stores::FileStore).new(self)
+    @defaults =  YAML.load_file(File.join(root, options[:defaults] || 'config.yml')) rescue {}
   end
 
-  def call(env)
-    render(::Rack::Utils.unescape(env['PATH_INFO']))
+  def page(path,meta)
+    Stormy::Page.new(self,path,meta)
   end
 
-
-  def render(path)
-    if @file_server.can_serve?(path)
-      @file_server.serve(path)
-    else
-      output, content_type = render_page(path)
-      [200, {"Content-Type" => content_type}, [ output ] ] 
-    end
+  def layout(path,meta)
+    Stormy::Layout.new(self,path,meta)
   end
 
-  def render_page(path)
-    @page = Stormy::Page.new(path,{ "path" =>  path })
-
-    if @page.valid?
-      @page.render
-    else
-      @error_page = Stormy::Page.new("/404", { "path" => "/404" })
-      @error_page.render
-    end
+  def template(path,meta,content)
+    Stormy::Template.new(self,path,meta,content)
   end
+
 end
-

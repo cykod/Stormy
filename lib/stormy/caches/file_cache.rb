@@ -1,7 +1,8 @@
 class Stormy::Caches::FileCache < Stormy::Caches::Base
 
-  def initialize(options = {})
-    @base_path = options["path"] || File.join(Stormy.root,"tmp","cache")
+  def initialize(app)
+    super
+    @base_path =  File.join(app.root,"tmp","cache")
     @path_exists = File.exists?(@base_path)
   end
 

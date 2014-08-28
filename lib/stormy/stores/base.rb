@@ -4,7 +4,8 @@ module Stormy::Stores
 
   class Base
 
-    def initialize
+    def initialize(app)
+      @app = app
     end
 
     # find the page that matches a key
@@ -26,7 +27,7 @@ module Stormy::Stores
     end
 
     def extract(key,string)
-      return nil unless string.present?
+      return [ key, {}, nil ] unless string.present?
       if(string =~ /^(---$\n.*?)^---$\n(.*)/m)
         metadata = YAML.load($1) 
         content = $2

@@ -1,14 +1,10 @@
 class Stormy::Stores::FileStore < Stormy::Stores::Base
 
-  def initialize
-
-  end
-
   def filename(base,path)
-    files = Dir.glob(File.join(base,"#{path}.*"))
+    files = Dir.glob(File.join(@app.root,base,"#{path}.*"))
     if files[0] && !File.directory?(files[0])
       files[0]
-    elsif File.directory?(File.join(base,path))
+    elsif File.directory?(File.join(@app.root,base,path))
       files = Dir.glob("#{base}#{path}index.*")
       files[0]
     else 
@@ -17,7 +13,7 @@ class Stormy::Stores::FileStore < Stormy::Stores::Base
   end
 
   def layout(key)
-    extract(*read("_layouts",key))
+    extract(*read("layouts",key))
   end
 
   def page(key)
@@ -25,7 +21,7 @@ class Stormy::Stores::FileStore < Stormy::Stores::Base
   end
   
   def content(category,key)
-    extract(*read("_content/#{category}",key))
+    extract(*read("content/#{category}",key))
   end
 
   def read(base,path)

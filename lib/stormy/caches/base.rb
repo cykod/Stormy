@@ -4,7 +4,8 @@ module Stormy::Caches
 
   class Base
 
-    def initialize
+    def initialize(app)
+      @app = app
     end
 
     def content(category,key,options={},&block)
