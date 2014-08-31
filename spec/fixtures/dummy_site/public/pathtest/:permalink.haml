@@ -1,0 +1,15 @@
+---
+content:
+  type: blog
+  key: :permalink
+---
+- meta[:title] = content[:title]
+%h1= meta[:title]
+%h2
+  by
+  = meta[:author]
+
+%section#blog_content
+  = content[:body]
+
+%p some random body copy

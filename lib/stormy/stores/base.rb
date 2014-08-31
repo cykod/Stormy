@@ -26,14 +26,14 @@ module Stormy::Stores
     def extract_content(body)
     end
 
-    def extract(key,string)
+    def extract(key,string, path_meta = {})
       return [ key, {}, nil ] unless string.present?
       if(string =~ /^(---$\n.*?)^---$\n(.*)/m)
-        metadata = YAML.load($1) 
+        metadata = YAML.load($1).symbolize_keys
         content = $2
-        [ key, metadata, content ]
+        [ key, path_meta.merge(metadata), content ]
       else
-        [ key, {}, string ]
+        [ key, path_meta, string ]
       end
     end
 

@@ -1,4 +1,3 @@
-
 class StormyApp
 
   attr_reader :root, :cache, :store, :defaults, :options
@@ -9,6 +8,7 @@ class StormyApp
     @cache = (options[:cache] || Stormy::Caches::DummyCache).new(self)
     @store = (options[:store] || Stormy::Stores::FileStore).new(self)
     @defaults =  YAML.load_file(File.join(root, options[:defaults] || 'config.yml')) rescue {}
+    @defaults.symbolize_keys!
   end
 
   def page(path,meta)
@@ -21,6 +21,11 @@ class StormyApp
 
   def template(path,meta,content)
     Stormy::Template.new(self,path,meta,content)
+  end
+
+  def join(*args)
+    sanitized_args = [ self.root ] + args.map { |arg| arg.gsub("..","") }
+    File.join(*sanitized_args)
   end
 
 end

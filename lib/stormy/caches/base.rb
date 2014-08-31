@@ -11,10 +11,10 @@ module Stormy::Caches
     def content(category,key,options={},&block)
       data = self.get(category,key)
       if !data.nil?
-        puts "Cache Hit:  #{category} #{key}"
+        log "Cache Hit:  #{category} #{key}"
         data
       else
-        puts "Cache Miss: #{category} #{key}"
+        log "Cache Miss: #{category} #{key}"
         self.put(category,key,yield(options))
       end
     end
@@ -33,6 +33,10 @@ module Stormy::Caches
 
     def page_list(category,options = {}, &block)
       content_list("page",options,&block)
+    end
+
+    def log(str)
+      #puts str
     end
 
     protected
