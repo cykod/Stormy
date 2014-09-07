@@ -4,7 +4,7 @@ module Stormy::Engines
       @app = app
     end
     
-    def render(content,bindings)
+    def render(body,bindings)
       raise "Unsupported"
     end
   end

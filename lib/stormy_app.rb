@@ -11,16 +11,24 @@ class StormyApp
     @defaults.symbolize_keys!
   end
 
-  def page(path,meta)
-    Stormy::Page.new(self,path,meta)
+  def page(path,params)
+    Stormy::Page.fetch(self,path,params)
   end
 
-  def layout(path,meta)
-    Stormy::Layout.new(self,path,meta)
+  def layout(path,params)
+    Stormy::Layout.fetch(self,path,params)
   end
 
-  def template(path,meta,content)
-    Stormy::Template.new(self,path,meta,content)
+  def content(category,key)
+    Stormy::Content.fetch(self,category,key)
+  end
+
+  def content_list(category,options={})
+    Stormy::ContentList.new(self,category,options)
+  end
+
+  def template(key,details)
+    Stormy::Template.new(self,key,details)
   end
 
   def join(*args)

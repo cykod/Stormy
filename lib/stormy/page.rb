@@ -1,13 +1,18 @@
 class Stormy::Page < Stormy::Chunk
 
-  def initialize(app, key,meta)
-    key, page_meta, content = app.cache.page(key) do 
+  def initialize(app, details, params)
+
+    super(app,details,params)
+
+    @layout = app.layout(@details["layout"],@details) if @details["layout"]
+  end
+
+  def self.fetch(app,key,params)
+    details = app.cache.page(key) do 
       app.store.page(key)
     end
 
-    super(app,key,meta,page_meta,content)
-
-    @layout = app.layout(@meta["layout"],@meta) if @meta["layout"]
+    self.new(app,details,params)
   end
 
 end

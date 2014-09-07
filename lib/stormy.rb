@@ -13,6 +13,7 @@ require_relative 'stormy/caches/memory_cache'
 
 require_relative 'stormy/chunk'
 require_relative 'stormy/content'
+require_relative 'stormy/content_list'
 require_relative 'stormy/page'
 require_relative 'stormy/layout'
 

@@ -1,6 +1,6 @@
 class Stormy::Stores::FileStore < Stormy::Stores::Base
 
-  def filename(base,path)
+  def lookup_filename(base,path)
     files = Dir.glob(@app.join(base,"#{path}.*"))
     if valid_file?(files[0])
       return files[0], {}
@@ -14,23 +14,37 @@ class Stormy::Stores::FileStore < Stormy::Stores::Base
   end
 
   def layout(key)
-    extract(*read("layouts",key))
+    read_key("layouts",key)
   end
 
   def page(key)
-    extract(*read("public",key))
+    read_key("public",key)
   end
   
   def content(category,key)
-    extract(*read("content/#{category}",key))
+    read_key("content/#{category}",key)
   end
 
-  def read(base,path)
-    file, path_meta = filename(base,path)
-    return [path, nil ] unless file
+  def content_list(category, options)
+    base = @app.join("content",category)
+    files = Dir.glob(File.join(base,"*.*"))
+    if options[:order] 
+      files = files.sort
+      files = files.reverse if options[:desc]
+    end
+    files.map { |file| read_file(file) }
+  end
+
+  def read_key(base,path)
+    file, path_meta = lookup_filename(base,path)
+    return {} unless file
+    read_file(file,path,path_meta)
+  end
+
+  def read_file(file, path, path_meta = {})
     fp = File.open(file,"rt")
-    new_key =  file[base.length..-1]
-    [ new_key, fp.read, path_meta ]
+    path_meta[:path] = file
+    extract(path, fp.read, path_meta)
   end
 
   def match_segments(base,path)
@@ -42,7 +56,7 @@ class Stormy::Stores::FileStore < Stormy::Stores::Base
       if valid_file?(files[0])
         extension = File.extname(files[0])
         keyname = File.basename(files[0], extension)[1..-1]
-        return files[0], { keyname => permalink_piece }.symbolize_keys
+        return files[0], { keyname.to_sym => permalink_piece }
       end
     end
     nil

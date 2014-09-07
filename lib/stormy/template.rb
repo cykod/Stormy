@@ -1,19 +1,20 @@
 class Stormy::Template
 
-  attr_reader :meta
+  attr_reader :details
+  attr_accessor :content
 
-  def initialize(app,key,meta,content)
+  def initialize(app,key,details)
     @app = app
+    @details = details
     @key = key
-    @meta = meta
-    @content = content
+    @body = details["body"]
 
     @engine = resolve_engine(self.class.extract_extension(@key))
   end
 
   def render(&block)
     if @engine
-      @engine.render(@content,resolve_bindings,&block)
+      @engine.render(@body,resolve_bindings,&block)
     else
       nil
     end
@@ -52,7 +53,7 @@ class Stormy::Template
   def resolve_bindings
     { 
       meta: @meta
-    }
+    }.merge(@content || {})
   end
 
 end

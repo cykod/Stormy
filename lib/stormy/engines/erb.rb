@@ -1,5 +1,5 @@
 class Stormy::Engines::Erb  < Stormy::Engines::Base
-  def render(content,bindings)
-    @engine = ::ERB.new(content, nil, "<>")
+  def render(body,bindings)
+    @engine = ::ERB.new(body, nil, "<>")
   end
 end

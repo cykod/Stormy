@@ -19,7 +19,7 @@ module Stormy::Stores
     def content(category,key)
     end
 
-    # get all the content that matches a category and a key
+    # get all the content that matches a category
     def content_list(category)
     end
 
@@ -27,14 +27,19 @@ module Stormy::Stores
     end
 
     def extract(key,string, path_meta = {})
-      return [ key, {}, nil ] unless string.present?
+      return {} unless string.present?
+
+      details = {}
       if(string =~ /^(---$\n.*?)^---$\n(.*)/m)
-        metadata = YAML.load($1).symbolize_keys
-        content = $2
-        [ key, path_meta.merge(metadata), content ]
+        details = YAML.load($1).symbolize_keys
+        details[:body] = $2
       else
-        [ key, path_meta, string ]
+        details[:body] = string
       end
+
+      details.merge!(path_meta)
+      details[:key] = key
+      details
     end
 
   end
