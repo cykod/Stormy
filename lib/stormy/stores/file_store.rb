@@ -32,7 +32,7 @@ class Stormy::Stores::FileStore < Stormy::Stores::Base
       files = files.sort
       files = files.reverse if options[:desc]
     end
-    files.map { |file| read_file(file) }
+    files.map { |file| read_file(file, File.basename(file)) }
   end
 
   def read_key(base,path)

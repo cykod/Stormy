@@ -21,6 +21,22 @@ describe Stormy::Page do
       expect(page.content[:post][:title]).to eq "Super post"
       expect(page.content[:post][:author]).to eq "Svend Karlson"
     end
+
+    it "resolves a content list" do
+      page = app.page("blog")
+      page.resolve_content
+      expect(page.content[:blog].length).to eq 2
+      expect(page.content[:blog][0][:title]).to eq "Super post"
+      expect(page.content[:blog][1][:title]).to eq "Super post 2"
+    end
+
+    it "correctly orders a content list" do
+      page = app.page("blog_desc")
+      page.resolve_content
+      expect(page.content[:blog].length).to eq 2
+      expect(page.content[:blog][0][:title]).to eq "Super post 2"
+      expect(page.content[:blog][1][:title]).to eq "Super post"
+    end
   end
 
 end

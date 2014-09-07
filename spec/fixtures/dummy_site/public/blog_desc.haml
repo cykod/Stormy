@@ -1,0 +1,13 @@
+---
+content:
+  type: blog
+  order: true
+  desc: true
+---
+%ul.posts
+  - blog.each do |post|
+    %li.post
+      %h2= post[:title]
+      %h3= post[:author]
+      = post[:body]
+

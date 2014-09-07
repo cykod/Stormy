@@ -11,11 +11,11 @@ class StormyApp
     @defaults.symbolize_keys!
   end
 
-  def page(path,params)
+  def page(path,params={})
     Stormy::Page.fetch(self,path,params)
   end
 
-  def layout(path,params)
+  def layout(path,params={})
     Stormy::Layout.fetch(self,path,params)
   end
 
@@ -24,7 +24,7 @@ class StormyApp
   end
 
   def content_list(category,options={})
-    Stormy::ContentList.new(self,category,options)
+    Stormy::ContentList.fetch(self,category,options)
   end
 
   def template(key,details)
