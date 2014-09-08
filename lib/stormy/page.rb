@@ -15,4 +15,18 @@ class Stormy::Page < Stormy::Chunk
     self.new(app,details,params)
   end
 
+  def render
+    @template.content = resolve_content if details[:content]
+    output =  @layout ? @layout.render(@template) : @template.render
+    if details[:redirect]
+      [301, {'Content-Type' => 'text','Location' => details[:redirect]}, ['301 found'] ]
+    else
+      [200, {'Content-Type' => mime_type }, [ output ] ]
+    end
+  end
+
+  def mime_type
+    Rack::Mime.mime_type(File.extname(details["key"]),"text/html")
+  end
+
 end

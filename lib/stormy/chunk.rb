@@ -20,11 +20,6 @@ class Stormy::Chunk
     @template.present?
   end
 
-  def render
-    resolve_content if details[:content]
-    return  [ @layout ? @layout.render(@template) : @template.render,
-              Rack::Mime.mime_type(File.extname(details["path"]), "text/html") ]
-  end
 
   def resolve_content
     pieces = details[:content]
@@ -32,6 +27,7 @@ class Stormy::Chunk
     pieces.each do |piece|
       resolve_piece(piece)
     end
+    self.content
   end
 
   def resolve_piece(piece)

@@ -52,7 +52,7 @@ class Stormy::Template
 
   def resolve_bindings
     { 
-      meta: @meta
+      meta: @details
     }.merge(@content || {})
   end
 

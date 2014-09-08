@@ -16,9 +16,9 @@ class StormyServer
     if @file_server.can_serve?(path)
       @file_server.serve(path)
     else
-      output, content_type = render_page(path)
+      output = render_page(path)
       if output
-        [200, {"Content-Type" => content_type}, [ output ] ] 
+        output
       else
         [404, {"Content-Type" => "text/html"}, [ "Page Not Found" ] ] 
       end
