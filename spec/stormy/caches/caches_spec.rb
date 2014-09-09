@@ -39,7 +39,7 @@ describe Stormy::Caches::FileCache do
 
   it "creates the necessary directory" do
     cache_dir = FIXTURE_ROOT + "/dummy_site/tmp/cache"
-    FileUtils.rm_r(cache_dir)
+    FileUtils.rm_r(cache_dir) rescue nil
 
     expect(File.directory?(cache_dir)).to eq false
     StormyApp.new(root: FIXTURE_ROOT + "/dummy_site/",
