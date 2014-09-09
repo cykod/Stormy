@@ -31,10 +31,6 @@ module Stormy::Caches
       content("list-#{category}",hash_options(options),&block)
     end
 
-    def page_list(category,options = {}, &block)
-      content_list("page",options,&block)
-    end
-
     def log(str)
       #puts str
     end
@@ -43,14 +39,6 @@ module Stormy::Caches
 
     def hash_options(options)
       Digest::MD5.hexdigest(options.to_a.sort_by { |key,val| key }.to_json)
-    end
-
-    def get(category,key)
-      raise "Unimplemented"
-    end
-
-    def put(category,key,data)
-      raise "Unimplemented"
     end
 
   end

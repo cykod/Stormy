@@ -31,9 +31,9 @@ class StormyServer
     if @page.valid?
       @page.render
     else
-      @error_page = @app.page("/404", { "path" => "/404" })
+      @error_page = @app.page(@app.page_not_found, { "path" => @app.page_not_found })
       if @error_page.valid? 
-        @error_page.render
+        @error_page.render(404)
       end
     end
   end

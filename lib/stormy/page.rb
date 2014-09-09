@@ -15,13 +15,13 @@ class Stormy::Page < Stormy::Chunk
     self.new(app,details,params)
   end
 
-  def render
+  def render(status = nil)
     @template.content = resolve_content if details[:content]
     output =  @layout ? @layout.render(@template) : @template.render
     if details[:redirect]
-      [301, {'Content-Type' => 'text','Location' => details[:redirect]}, ['301 found'] ]
+      [status || 301, {'Content-Type' => 'text','Location' => details[:redirect]}, ['301 found'] ]
     else
-      [200, {'Content-Type' => mime_type }, [ output ] ]
+      [status || 200, {'Content-Type' => mime_type }, [ output ] ]
     end
   end
 

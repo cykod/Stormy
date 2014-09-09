@@ -1,12 +1,13 @@
 class StormyApp
 
-  attr_reader :root, :cache, :store, :defaults, :options
+  attr_reader :root, :cache, :store, :defaults, :options, :page_not_found
 
   def initialize(options)
     @options = options
     @root = options[:root] || raise("Missing :root config")
     @cache = (options[:cache] || Stormy::Caches::DummyCache).new(self)
     @store = (options[:store] || Stormy::Stores::FileStore).new(self)
+    @page_not_found = (options[:page_not_found] || "/404")
     @defaults =  YAML.load_file(File.join(root, options[:defaults] || 'config.yml')) rescue {}
     @defaults.symbolize_keys!
   end
