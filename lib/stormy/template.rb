@@ -37,6 +37,14 @@ class Stormy::Template
     @@supported_extensions.include?(extension)
   end
   
+  def self.extract_segment(path)
+    extension = extract_extension(path)
+    if rendered_extension?(extension)
+      File.basename(path,"." + extension)
+    else 
+      File.basename(path)
+    end
+  end
 
   def self.extract_extension(key)
     return "txt" unless key.include?(".")

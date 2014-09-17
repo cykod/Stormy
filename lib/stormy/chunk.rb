@@ -17,7 +17,7 @@ class Stormy::Chunk
   end
 
   def valid?
-    @template.present?
+    @template.present? && !@invalid_content
   end
 
 
@@ -25,7 +25,9 @@ class Stormy::Chunk
     pieces = details[:content]
     pieces = [ pieces ] unless pieces.is_a?(Array)
     pieces.each do |piece|
-      resolve_piece(piece)
+      if !resolve_piece(piece)
+        @invalid_content = true
+      end
     end
     self.content
   end
@@ -48,7 +50,9 @@ class Stormy::Chunk
           end
     content_chunk = @app.content(type,key)
 
-    content[name] = content_chunk.render
+    if content_chunk && content_chunk.valid?
+      content[name] = content_chunk.render
+    end
   end
 
   def resolve_content_list(name,type,piece)

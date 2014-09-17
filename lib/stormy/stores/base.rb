@@ -30,7 +30,7 @@ module Stormy::Stores
       return {} unless string.present?
 
       details = {}
-      if(string =~ /^(---$\n.*?)^---$\n(.*)/m)
+      if(string =~ /^(---\w*$\n.*?)^---\w*$\n(.*)/m)
         details = YAML.load($1).symbolize_keys
         details[:body] = $2
       else
@@ -38,6 +38,7 @@ module Stormy::Stores
       end
 
       details.merge!(path_meta)
+      details[:permalink] = Stormy::Template.extract_segment(key)
       details[:key] = key
       details
     end

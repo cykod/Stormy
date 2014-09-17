@@ -28,7 +28,7 @@ That's the goal of Stormy - a simple, minimal-dependency semi-static rack-based 
 
 Dammit, I should have - you're right. Oh well.
 
-No really, I just wanted to write some code in a file and have a server serve that code up. Minimal routes or setup.
+No really, I just wanted to write some code in a file and have a server serve that code up. routes or setup.
 
 ## How to use
 

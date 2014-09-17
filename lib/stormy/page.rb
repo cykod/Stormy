@@ -5,6 +5,7 @@ class Stormy::Page < Stormy::Chunk
     super(app,details,params)
 
     @layout = app.layout(@details["layout"],@details) if @details["layout"]
+    @template.content = resolve_content if details[:content] && @template
   end
 
   def self.fetch(app,key,params)
@@ -16,8 +17,7 @@ class Stormy::Page < Stormy::Chunk
   end
 
   def render(status = nil)
-    @template.content = resolve_content if details[:content]
-    output =  @layout ? @layout.render(@template) : @template.render
+    output =  @layout && mime_type == "text/html" ? @layout.render(@template) : @template.render
     if details[:redirect]
       [status || 301, {'Content-Type' => 'text','Location' => details[:redirect]}, ['301 found'] ]
     else
@@ -26,7 +26,7 @@ class Stormy::Page < Stormy::Chunk
   end
 
   def mime_type
-    Rack::Mime.mime_type(File.extname(details["key"]),"text/html")
+    @mime_type ||= Rack::Mime.mime_type(File.extname(details["key"]),"text/html")
   end
 
 end

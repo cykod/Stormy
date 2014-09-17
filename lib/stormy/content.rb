@@ -2,10 +2,10 @@ class Stormy::Content < Stormy::Chunk
 
   def initialize(app,details)
     super(app,details)
+    resolve_content if details[:content] && @template
   end
 
   def render
-    resolve_content if details[:content]
     @details.merge({
       body: @template.render
     })

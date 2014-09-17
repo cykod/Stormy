@@ -42,7 +42,7 @@ class Stormy::Stores::FileStore < Stormy::Stores::Base
   end
 
   def read_file(file, path, path_meta = {})
-    fp = File.open(file,"rt")
+    fp = File.open(file,"rt:UTF-8")
     path_meta[:path] = file
     extract(path, fp.read, path_meta)
   end
