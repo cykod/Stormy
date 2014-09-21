@@ -23,7 +23,7 @@ class Stormy::Template
   protected
 
   @@engines = {
-    "md" => "Maruku",
+    "md" => "Markdown",
     "haml" => "Haml",
     "txt"  => "Text",
     "html" => "Html",

@@ -27,7 +27,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "rack"
   spec.add_dependency "tilt"
   spec.add_dependency "haml"
-  spec.add_dependency "maruku"
+  spec.add_dependency "kramdown"
   spec.add_dependency "sass"
   spec.add_dependency "activesupport"
 end
