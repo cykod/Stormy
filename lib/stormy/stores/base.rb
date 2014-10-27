@@ -31,8 +31,12 @@ module Stormy::Stores
 
       details = {}
       if(string =~ /^(---\w*$\n.*?)^---\w*$\n(.*)/m)
-        details = YAML.load($1).symbolize_keys
-        details[:body] = $2
+        begin 
+          details = YAML.load($1).symbolize_keys
+          details[:body] = $2
+        rescue Exception => e
+          raise "Error Parsing YAML #{key}: #{e.to_s}"
+        end
       else
         details[:body] = string
       end

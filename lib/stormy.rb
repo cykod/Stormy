@@ -21,10 +21,11 @@ require_relative 'stormy/stores/base'
 require_relative 'stormy/stores/file_store'
 
 require_relative 'stormy/engines/base'
-require_relative 'stormy/engines/maruku'
+require_relative 'stormy/engines/markdown'
 require_relative 'stormy/engines/erb'
 require_relative 'stormy/engines/haml'
 require_relative 'stormy/engines/sass'
+require_relative 'stormy/engines/html'
 
 require_relative 'stormy/template'
 
