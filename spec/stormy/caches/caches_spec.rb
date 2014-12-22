@@ -3,7 +3,7 @@ require "spec_helper"
 shared_examples "a stormy cache" do 
 
   let(:app) {  StormyApp.new(root: FIXTURE_ROOT + "/dummy_site/",
-                             cache: described_class) }
+                             cache: described_class.new) }
 
   context "#page" do
 
@@ -42,8 +42,9 @@ describe Stormy::Caches::FileCache do
     FileUtils.rm_r(cache_dir) rescue nil
 
     expect(File.directory?(cache_dir)).to eq false
-    StormyApp.new(root: FIXTURE_ROOT + "/dummy_site/",
-                  cache: described_class)
+    app = StormyApp.new(root: FIXTURE_ROOT + "/dummy_site/",
+                  cache: Stormy::Caches::FileCache.new)
+    app.cache
 
     expect(File.directory?(cache_dir)).to eq true
   end

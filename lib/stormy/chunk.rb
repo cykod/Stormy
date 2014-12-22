@@ -7,14 +7,18 @@ class Stormy::Chunk
     @app = app
     
     @params = params
-    @details = ActiveSupport::HashWithIndifferentAccess.new(app.defaults)
-    @details.merge!(details) 
+    if details
+      @details = ActiveSupport::HashWithIndifferentAccess.new(app.defaults)
+      @details.merge!(details) 
     
-    @body = details[:body]
+      @body = details[:body]
+      @template = app.template(details[:path],@details) if @body
+    else
+      @details = {}
+    end
     @content = {}
-
-    @template = app.template(details[:path],@details) if @body
   end
+
 
   def valid?
     @template.present? && !@invalid_content

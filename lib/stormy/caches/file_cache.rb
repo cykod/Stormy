@@ -2,10 +2,15 @@ require "fileutils"
 
 class Stormy::Caches::FileCache < Stormy::Caches::Base
 
-  def initialize(app)
+  def initialize
     super
-    @base_path =  app.join("tmp","cache")
+  end
+
+  def register(app)
+    super(app)
+    @base_path = app.join("tmp","cache")
     clean_path
+    self
   end
 
   protected

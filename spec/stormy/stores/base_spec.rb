@@ -3,9 +3,9 @@ require "spec_helper"
 describe Stormy::Stores::Base do
 
   let!(:app) { StormyApp.new(root: FIXTURE_ROOT + "/dummy_site",
-                             store: Stormy::Stores::FileStore ) }
+                             store: Stormy::Stores::Base.new ) }
 
-  let!(:store) { Stormy::Stores::Base.new(app) }
+  let!(:store) { app.store }
 
   describe "#extract_content" do
 

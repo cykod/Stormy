@@ -4,7 +4,7 @@ describe Stormy::Stores::FileStore do
 
 
   let!(:app) { StormyApp.new(root: FIXTURE_ROOT + "/dummy_site",
-                             store: Stormy::Stores::FileStore ) }
+                             store: Stormy::Stores::FileStore.new ) }
   let!(:store) { app.store }
 
 

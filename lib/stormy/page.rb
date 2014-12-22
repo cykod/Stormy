@@ -5,7 +5,7 @@ class Stormy::Page < Stormy::Chunk
     super(app,details,params)
 
     @layout = app.layout(@details["layout"],@details) if @details["layout"]
-    @template.content = resolve_content if details[:content] && @template
+    @template.content = resolve_content if @details[:content] && @template
   end
 
   def self.fetch(app,key,params)

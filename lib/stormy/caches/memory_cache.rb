@@ -1,7 +1,6 @@
 class Stormy::Caches::MemoryCache < Stormy::Caches::Base
 
-  def initialize(app)
-    super
+  def initialize
     @data = {}
   end
 

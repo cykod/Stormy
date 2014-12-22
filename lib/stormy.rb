@@ -19,6 +19,7 @@ require_relative 'stormy/layout'
 
 require_relative 'stormy/stores/base'
 require_relative 'stormy/stores/file_store'
+require_relative 'stormy/stores/fallback_store'
 
 require_relative 'stormy/engines/base'
 require_relative 'stormy/engines/markdown'

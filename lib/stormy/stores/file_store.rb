@@ -1,17 +1,5 @@
 class Stormy::Stores::FileStore < Stormy::Stores::Base
 
-  def lookup_filename(base,path)
-    files = Dir.glob(@app.join(base,"#{path}.*"))
-    if valid_file?(files[0])
-      return files[0], {}
-    elsif File.directory?(@app.join(base,path))
-      files = Dir.glob(@app.join(base,path,"index.*"))
-      return files[0], {}
-    else 
-      # split by separators and see if there we can match the pieces to segments
-      match_segments(base,path)
-    end
-  end
 
   def layout(key)
     read_key("layouts",key)
@@ -33,13 +21,28 @@ class Stormy::Stores::FileStore < Stormy::Stores::Base
       files = files.sort
       files = files.reverse if options[:desc]
     end
+    files = files[0..(options[:limit] - 1)] if options[:limit]
     files.map { |file| read_file(file, File.basename(file)) }
   end
 
+
   def read_key(base,path)
     file, path_meta = lookup_filename(base,path)
-    return {} unless file
+    return nil unless file
     read_file(file,path,path_meta)
+  end
+
+  def lookup_filename(base,path)
+    files = Dir.glob(@app.join(base,"#{path}.*"))
+    if valid_file?(files[0])
+      return files[0], {}
+    elsif File.directory?(@app.join(base,path))
+      files = Dir.glob(@app.join(base,path,"index.*"))
+      return files[0], {}
+    else 
+      # split by separators and see if there we can match the pieces to segments
+      match_segments(base,path)
+    end
   end
 
   def read_file(file, path, path_meta = {})

@@ -3,9 +3,14 @@ require "yaml"
 module Stormy::Stores 
 
   class Base
+    attr_reader :app
 
-    def initialize(app)
-      @app = app
+    def initialize
+    end
+
+    def register(val)
+      @app = val
+      self
     end
 
     # find the page that matches a key
@@ -20,13 +25,13 @@ module Stormy::Stores
     end
 
     # get all the content that matches a category
-    def content_list(category)
+    def content_list(category, options)
     end
 
     def extract_content(body)
     end
 
-    def extract(key,string, path_meta = {})
+    def extract(key,string, meta = {})
       return {} unless string.present?
 
       details = {}
@@ -41,7 +46,7 @@ module Stormy::Stores
         details[:body] = string
       end
 
-      details.merge!(path_meta)
+      details.merge!(meta)
       details[:permalink] = Stormy::Template.extract_segment(key)
       details[:key] = key
       details
