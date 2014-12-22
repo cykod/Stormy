@@ -30,7 +30,7 @@ module Stormy::Stores
       return {} unless string.present?
 
       details = {}
-      if(string =~ /^(---\w*$\n.*?)^---\w*$\n(.*)/m)
+      if(string =~ /\A(---\w*$\n.*?)^---\w*$\n(.*)\Z/m)
         begin 
           details = YAML.load($1).symbolize_keys
           details[:body] = $2

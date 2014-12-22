@@ -3,8 +3,11 @@ class Stormy::ContentList
   attr_reader :items
 
   def initialize(app,items)
-    @items = items.map do |item|
-      Stormy::Content.new(app,item).render
+
+    if items
+      @items = items.map do |item|
+        Stormy::Content.new(app,item).render
+      end
     end
   end
 

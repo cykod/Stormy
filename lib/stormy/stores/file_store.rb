@@ -27,6 +27,7 @@ class Stormy::Stores::FileStore < Stormy::Stores::Base
 
   def content_list(category, options)
     base = @app.join("content",category)
+    return nil unless File.directory?(base)
     files = Dir.glob(File.join(base,"*.*"))
     if options[:order] 
       files = files.sort

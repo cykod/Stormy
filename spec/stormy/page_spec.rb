@@ -37,6 +37,13 @@ describe Stormy::Page do
       expect(page.content[:blog][0][:title]).to eq "Super post 2"
       expect(page.content[:blog][1][:title]).to eq "Super post"
     end
+
+    it "sets valid to false with invalid content" do
+      page = app.page("bad_content")
+      page.resolve_content
+      expect(page.valid?).to eq false
+    end
+
   end
 
   describe "#render" do
