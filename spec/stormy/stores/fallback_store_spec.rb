@@ -56,7 +56,7 @@ describe Stormy::Stores::FileStore do
 
   describe "#content_list" do
     it "returns a list" do
-      details = store.content_list('blog',{})
+      details = store.content_list('blog',{ order: 'name' })
       expect(details[0][:title]).to eq "Super post"
     end
   end
