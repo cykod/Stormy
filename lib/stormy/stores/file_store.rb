@@ -15,11 +15,12 @@ class Stormy::Stores::FileStore < Stormy::Stores::Base
 
   def content_list(category, options)
     base = @app.join("content",category)
+    options = options.symbolize_keys
     return nil unless File.directory?(base)
     files = Dir.glob(File.join(base,"*.*"))
     files = files.map { |file| read_file(file, File.basename(file)) }
     if options[:order] 
-      files = files.sort_by { |fl| fl[options[:order]] || 0 }
+      files = files.sort_by { |fl| fl[options[:order].to_sym] || 0 }
       files = files.reverse if options[:desc]
     end
     files = files[0..(options[:limit] - 1)] if options[:limit]
