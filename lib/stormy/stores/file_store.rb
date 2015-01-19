@@ -19,10 +19,11 @@ class Stormy::Stores::FileStore < Stormy::Stores::Base
     files = Dir.glob(File.join(base,"*.*"))
     files = files.map { |file| read_file(file, File.basename(file)) }
     if options[:order] 
-      files = files.sort { |fl| fl[options[:order]] || 0 }
+      files = files.sort_by { |fl| fl[options[:order]] || 0 }
       files = files.reverse if options[:desc]
     end
     files = files[0..(options[:limit] - 1)] if options[:limit]
+    files
   end
 
 
@@ -47,7 +48,7 @@ class Stormy::Stores::FileStore < Stormy::Stores::Base
 
   def read_file(file, path, path_meta = {})
     fp = File.open(file,"rt:UTF-8")
-    path_meta[:path] = file
+    path_meta[:path] = file.to_s
     extract(path, fp.read, path_meta)
   end
 
